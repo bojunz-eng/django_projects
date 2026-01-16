@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Polls</h1>
+
+    <p>Hello world. {{ owner }} You're at the polls index now.</p>
+    
     <p>Question List</p>
 
     {% if latest_question_list %}
@@ -18,6 +21,7 @@
     {% else %}
         <p>No polls are available.</p>
     {% endif %}
+
 </body>
 </html>
 

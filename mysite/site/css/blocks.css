@@ -1,0 +1,65 @@
+/* This is a partial blocks.css, you need to add more rules
+   to this file to complete the assignment.  Do not add any CSS
+   styling to the original index.htm / start.htm */
+
+:root {
+    --box-margin-hov: 20px;
+    --box-margin-ver: 10px;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#one, #two, #three, #four {
+    width: 25%;
+    padding: 5px;
+    margin: 5px;
+    border: 5px solid;
+    position: fixed;
+    font-size: 20px;
+}
+
+#one {
+    border-color: #0000ff;
+    bottom: var(--box-margin-ver);
+    right: var(--box-margin-hov);
+}
+
+#two {
+    border-color: #347034;
+    top: var(--box-margin-ver);
+    right: var(--box-margin-hov);
+}
+
+#three {
+    border-color: #f5be09;
+    top: var(--box-margin-ver);
+    left: var(--box-margin-hov);
+}
+
+#four {
+    border-color: #ffff00;
+    bottom: var(--box-margin-ver);
+    left: var(--box-margin-hov);
+}
+
+#link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 30px;
+    margin: auto;
+    margin-top: 10px;
+ 
+    background-color: #0a4b33;
+}
+
+#link a {
+    font-family: 'Roboto', Corbel, Avenir, 'Lucida Grande', 'Lucida Sans', sans-serif;
+    color: #EEEEEE;
+    text-decoration: none;
+    font-size: 22px;
+}

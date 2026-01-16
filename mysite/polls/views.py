@@ -20,9 +20,8 @@ def index(request):
     # return HttpResponse(template.render(context, request))
 
     latest_question_list = Question.objects.order_by("-pub_date")[:5]
-    context = {"latest_question_list": latest_question_list}
+    context = {"latest_question_list": latest_question_list, "owner": "816751b2"}
     return render(request, "polls/index.html", context)
-
 
 def owner(request: HttpRequest) -> HttpResponse:
     response = HttpResponse()
