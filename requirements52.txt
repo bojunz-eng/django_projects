@@ -70,3 +70,4 @@ typing_extensions==4.15.0
 urllib3==2.6.2
 zipp==3.23.0
 elasticsearch>=8.0.0
+debug_toolbar==4.1

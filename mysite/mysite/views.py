@@ -11,6 +11,7 @@ def home(request):
     <ul>
         <li><a href="admin">admin</a></li>
         <li><a href="polls">polls</a></li>
+        <li><a href="solo1">solo1</a></li>
     </ul>
     """)
     

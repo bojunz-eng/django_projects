@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'debug_toolbar',
     "polls.apps.PollsConfig",
+    "solo1.apps.Solo1Config",
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INTERNAL_IPS = [
     '127.0.0.1',
-    '::1',
-    'bojunz.pythonanywhere.com'
+    '::1'
 ]
