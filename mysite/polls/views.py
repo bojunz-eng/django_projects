@@ -8,6 +8,7 @@ from .models import Choice, Question
 from django.db.models import F
 from django.urls import reverse
 from django.views import generic
+from django.conf import settings
 
 def index(request):
     # return HttpResponse("Hello world. 816751b2 You're at the polls index now.")
@@ -22,12 +23,12 @@ def index(request):
     # return HttpResponse(template.render(context, request))
 
     latest_question_list = Question.objects.order_by("-pub_date")[:5]
-    context = {"latest_question_list": latest_question_list, "owner": "816751b2"}
+    context = {"latest_question_list": latest_question_list, "owner": settings.USER_ID}
     return render(request, "polls/index.html", context)
 
 def owner(request: HttpRequest) -> HttpResponse:
     response = HttpResponse()
-    response.write("Hello, world. 816751b2 is the polls index.")
+    response.write(f"Hello, world. {settings.USER_ID} is the polls index.")
     return response
 
 
