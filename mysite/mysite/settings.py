@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     "polls.apps.PollsConfig",
     "solo1.apps.Solo1Config",
+    "home.apps.HomeConfig",
+    "hello.apps.HelloConfig"
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,5 @@ INTERNAL_IPS = [
     '127.0.0.1',
     '::1'
 ]
+
+USER_ID = '67821139' #816751b2   TEMP: 67821139
