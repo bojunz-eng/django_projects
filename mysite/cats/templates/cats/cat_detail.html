@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ cat.nickname }}</h1>
+<p>Breed: {{ cat.breed.name }} ({{ cat.breed.id }})</p>
+<p>Weight: {{ cat.weight }}</p>
+
+<a href="{% url 'cats:cat_update' cat.id %}">Update</a>
+<a href="{% url 'cats:cat_delete' cat.id %}">Delete</a>
+</body>
+</html>

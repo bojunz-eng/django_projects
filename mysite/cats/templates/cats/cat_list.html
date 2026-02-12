@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <h1>Cat List</h1>
+    <a href="{% url 'cats:cat_create' %}">Create a Cat</a>
+    <ul>
+      {% for cat in cat_list %}
+        <li>
+          <div>
+            <a href="{% url 'cats:cat_detail' cat.id %}"> {{ cat.nickname }}</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

@@ -38,11 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # Extensions - see requirements.txt
+    'django_extensions',
+
     'debug_toolbar',
     "polls.apps.PollsConfig",
     "solo1.apps.Solo1Config",
     "home.apps.HomeConfig",
-    "hello.apps.HelloConfig"
+    "hello.apps.HelloConfig",
+    "cats.apps.CatsConfig"
 ]
 
 MIDDLEWARE = [
