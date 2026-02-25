@@ -34,7 +34,8 @@ urlpatterns = [
     path('polls/', include('polls.urls')),           
     path('solo1/', include('solo1.urls')), 
     path('hello/', include('hello.urls')),         
-    path('cats/', include('cats.urls')),                                                                                        
+    path('cats/', include('cats.urls')),            
+    path('autos/', include('autos.urls')),                                                                                
     re_path(r'^site/(?P<path>.*)$', serve,
         {'document_root': SITE_ROOT, 'show_indexes': True},
         name='site_path'
