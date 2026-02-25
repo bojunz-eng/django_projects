@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "solo1.apps.Solo1Config",
     "home.apps.HomeConfig",
     "hello.apps.HelloConfig",
-    "cats.apps.CatsConfig"
+    "cats.apps.CatsConfig",
+    "autos.apps.AutosConfig",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,57 @@
+{% extends "base_bootstrap.html" %}
+{% block content %}
+<h1>Favorite Things (WC)</h1>
+<p>
+{% if thing_list %}
+<ul>
+  {% for thing in thing_list %}
+    <li>
+        <a href="{% url 'favwc:thing_detail'  thing.id %}">{{ thing.title }}</a>
+        {% if thing.owner_id == user.id %}
+        (<a href="{% url 'favwc:thing_update' thing.id %}">Edit</a> |
+        <a href="{% url 'favwc:thing_delete' thing.id %}">Delete</a>)
+        {% endif %}
+        {% if user.is_authenticated %}
+        <dj4e-favstar 
+            onclick="favToggle(this, '{% url 'favwc:thing_toggle' thing.id %}');"
+            {% if thing.id in favorites %} fav {% endif %} 
+        >
+        </dj4e-favstar>
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no things in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'favwc:thing_create' %}">Add a Thing</a>
+{% if user.is_authenticated %}
+    <p> Logged in as {{ user.username }} </p>
+{% else %}
+    <p>Not currently logged in.</p>
+{% endif %}
+</p>
+<script>
+function favToggle(element, url) {
+    console.log('POSTing to', url);
+    fetch(url, { method: 'POST', body: '{}' } )
+    .then((response) => {
+        if (!response.ok) { // Check if the response status is in the 2xx range (success)
+            console.log("If you see this error, it is likely in ToggleFavoriteView()");
+            console.log("Note: It is easier to diagnose this error FireFox.");
+            throw new Error(`AJAX/fetch error status: ${response.status}, see developer console.`)
+        }
+        return response.text();
+    })
+    .then((response) => {
+        console.log(url, response);
+        element.toggleAttribute('fav');
+    }).catch((error) => {
+        alert(`Url ${url} failed ${error}`);
+    });
+}
+</script>
+<script type="module" src="/site/wc/dj4e-favstar.js"></script>
+{% endblock %}
