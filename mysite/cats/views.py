@@ -54,7 +54,7 @@ class BreedList (LoginRequiredMixin, ListView):
 class BreedCreate(LoginRequiredMixin, CreateView):
     model = Breed
     fields = ['name']
-    success_url = reverse_lazy('cats:breed_list')
+    success_url = reverse_lazy('cats:all')
     
 class BreedDetail(LoginRequiredMixin, DetailView):
     model = Breed
@@ -65,9 +65,9 @@ class BreedDetail(LoginRequiredMixin, DetailView):
 class BreedUpdate(LoginRequiredMixin, UpdateView):
     model = Breed
     fields = ['name']
-    success_url = reverse_lazy('cats:breed_list')
+    success_url = reverse_lazy('cats:all')
 
 class BreedDelete(LoginRequiredMixin, DeleteView):
     model = Breed
-    success_url = reverse_lazy('cats:breed_list')
+    success_url = reverse_lazy('cats:all')
     
