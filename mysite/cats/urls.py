@@ -3,9 +3,9 @@ from . import views
 
 app_name = "cats"
 urlpatterns = [
-    path('', views.CatListView.as_view(), name='cat_list'),
-    path('<int:pk>/', views.CatDetailView.as_view(), name='cat_detail'),
-    path('create/', views.CatCreateView.as_view(), name='cat_create'),
-    path('update/<int:pk>/', views.CatUpdateView.as_view(), name='cat_update'),
-    path('delete/<int:pk>/', views.CatDeleteView.as_view(), name='cat_delete'),
+    path('', views.CatList.as_view(), name='all'),
+    path('main/<int:pk>/', views.CatDetail.as_view(), name='cat_detail'),
+    path('main/create/', views.CatCreate.as_view(), name='cat_create'),
+    path('main/<int:pk>/update/', views.CatUpdate.as_view(), name='cat_update'),
+    path('main/<int:pk>/delete/', views.CatDelete.as_view(), name='cat_delete'),
 ]

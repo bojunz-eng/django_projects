@@ -9,7 +9,7 @@
 <form action="" method="post">
     {% csrf_token %}
     <input type="submit" value="Yes, delete.">
-    <a href="{% url 'cats:cat_list' %}"><input type="button" value="No, cancel."></a>
+    <a href="{% url 'cats:all' %}"><input type="button" value="No, cancel."></a>
 </form>
 </body>
 </html>
