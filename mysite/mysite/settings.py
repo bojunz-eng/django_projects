@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     "polls.apps.PollsConfig",
     "solo1.apps.Solo1Config",
+    "solo2.apps.Solo2Config",
     "home.apps.HomeConfig",
     "hello.apps.HelloConfig",
     "cats.apps.CatsConfig",
