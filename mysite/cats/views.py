@@ -6,6 +6,7 @@ from django.views.generic import View, ListView
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Cat, Breed
+from django.shortcuts import render, redirect, get_object_or_404
 
 '''
 class CatList(LoginRequiredMixin, View):
@@ -67,7 +68,23 @@ class BreedUpdate(LoginRequiredMixin, UpdateView):
     fields = ['name']
     success_url = reverse_lazy('cats:all')
 
+'''
 class BreedDelete(LoginRequiredMixin, DeleteView):
     model = Breed
     success_url = reverse_lazy('cats:all')
-    
+'''
+
+class BreedDelete(LoginRequiredMixin, View):
+    model = Breed
+    success_url = reverse_lazy('cats:all')
+    template = 'cats/breed_confirm_delete.html'
+
+    def get(self, request, pk):
+        breed = get_object_or_404(self.model, pk=pk)
+        ctx = {'breed': Breed}
+        return render(request, self.template, ctx)
+
+    def post(self, request, pk):
+        make = get_object_or_404(self.model, pk=pk)
+        make.delete()
+        return redirect(self.success_url)
