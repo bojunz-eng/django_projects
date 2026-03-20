@@ -1,0 +1,11 @@
+https://www.pythonanywhere.com/login/
+用户名，密码
+bojunz
+kevinzhang2003kz!
+
+
+database: bojunz$default
+
+Database host address:bojunz.mysql.pythonanywhere-services.com
+Username:bojunz
+password: rootroot
