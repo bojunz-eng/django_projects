@@ -18,9 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-APP_NAME = "Chuck's Marketplace"   # Change
+APP_NAME = "Developer's Marketplace"   # Change
 
 DJ4E_CODE = '42'
+DJ4E_CODE = '816751b23dc0b7f460431c51f0ffd6b2'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-yb3=cy&k285b#=!h42%bf+g*07v4lrr+l)fj+_tf1e348fpnkj"
