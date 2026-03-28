@@ -46,4 +46,4 @@ def change_user(request):
     # Add a new Ad
     ad = Ad(title="New Ad", text="Seeking Running Partner for Early Morning Runs", price=100, owner=user)
     ad.save()
-    return HttpResponse(f"user password changed: {user.password}")
+    return HttpResponse(f"user password changed: {user.password}") 
