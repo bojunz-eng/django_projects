@@ -31,6 +31,8 @@ def owner(request: HttpRequest) -> HttpResponse:
     response.write(f"Hello, world. {settings.USER_ID} is the polls index.")
     return response
 
+def local(request: HttpRequest) -> HttpResponse:
+   return HttpResponse("Hello, world. 816751b2 You're at the polls index.")
 
 def detail(request, question_id):
     # return HttpResponse("You're looking at question %s." % question_id)

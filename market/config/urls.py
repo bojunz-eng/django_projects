@@ -23,11 +23,13 @@ from django.views.static import serve
 import os
 
 urlpatterns = [
-    path('', include('home.urls')),
+    path('', include('mkt.urls')),       # Route root path to mkt
     path('home/', include('home.urls')),
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
+    
+    path('mkt/', include('mkt.urls')),
 ]
 
 # Serve the static HTML
