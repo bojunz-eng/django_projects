@@ -2,6 +2,7 @@ from django.urls import path, reverse_lazy
 from . import views
 
 app_name='mkt'
+
 urlpatterns = [
     path('fix', views.change_user, name='change_user'),
     path('', views.AdListView.as_view(), name='all'),
@@ -12,6 +13,9 @@ urlpatterns = [
         views.AdUpdateView.as_view(success_url=reverse_lazy('mkt:all')), name='ad_update'),
     path('ad/<int:pk>/delete', 
         views.AdDeleteView.as_view(success_url=reverse_lazy('mkt:all')), name='ad_delete'),
+    
+    path('ad_picture/<int:pk>', views.stream_file, name='ad_picture'),
 ]
 
 # We use reverse_lazy in urls.py to delay looking up the view until all the paths are defined
+# ssh -R 80:localhost:8000 localhost.run 

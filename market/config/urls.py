@@ -29,7 +29,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
     
-    path('mkt/', include('mkt.urls')),
+    #path('mkt/', include('mkt.urls')),
 ]
 
 # Serve the static HTML
