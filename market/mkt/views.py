@@ -81,6 +81,10 @@ class AdDeleteView(OwnerDeleteView):
 
 def change_user(request):
     '''
+    
+    dj4e_user1 (copy) / Meow_16751b_41 (copy)
+    dj4e_user2 (copy) / Meow_42_16751b (copy)
+
     dj4e_user1 (copy) / Meow_782113_41 (copy)
     dj4e_user2 (copy) / Meow_42_782113 (copy)
     '''
