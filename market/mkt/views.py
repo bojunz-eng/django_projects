@@ -1,30 +1,56 @@
+from django.db.utils import IntegrityError
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
-from mkt.models import Ad, Comment
+from mkt.models import Ad, Comment, Fav
 from mkt.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
+from django.views.generic import DetailView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from mkt.forms import CreateForm, CommentForm
 
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = get_user_model()
+    template_name = "mkt/user_profile.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
 class AdListView(OwnerListView):
     model = Ad
-    # By convention:
-    # template_name = "mkt/ad_list.html"
+    template_name = "mkt/ad_list.html"
+
+    def get(self, request):
+        ad_list = Ad.objects.all()
+        favorites = []
+        if request.user.is_authenticated:
+            # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
+            rows = request.user.favorite_ads.values('id')
+            print(rows)
+            # favorites = [2, 4, ...] using list comprehension
+            favorites = [row['id'] for row in rows]
+        print(favorites)
+        ctx = {'ad_list': ad_list, 'favorites': favorites}
+        return render(request, self.template_name, ctx)
 
 
 class AdDetailView(OwnerDetailView):
     model = Ad
     template_name = "mkt/ad_detail.html"
-    
-    def get(self, request, pk) :
+
+    def get(self, request, pk):
         x = get_object_or_404(Ad, id=pk)
         comments = Comment.objects.filter(ad=x).order_by('-updated_at')
         comment_form = CommentForm()
-        context = { 'ad' : x, 'comments': comments, 'comment_form': comment_form }
+        context = {'ad': x, 'comments': comments, 'comment_form': comment_form}
         return render(request, self.template_name, context)
+
 
 '''
 class AdCreateView(OwnerCreateView):
@@ -36,6 +62,7 @@ class AdUpdateView(OwnerUpdateView):
     model = Ad
     fields = ['title', 'price', 'text']
 '''
+
 
 class AdCreateView(LoginRequiredMixin, View):
     template_name = 'mkt/ad_form.html'
@@ -89,11 +116,13 @@ class AdDeleteView(OwnerDeleteView):
 
 
 class CommentCreateView(LoginRequiredMixin, View):
-    def post(self, request, pk) :
+    def post(self, request, pk):
         f = get_object_or_404(Ad, id=pk)
-        comment = Comment(text=request.POST['comment'], owner=request.user, ad=f)
+        comment = Comment(
+            text=request.POST['comment'], owner=request.user, ad=f)
         comment.save()
         return redirect(reverse('mkt:ad_detail', args=[pk]))
+
 
 class CommentDeleteView(OwnerDeleteView):
     model = Comment
@@ -112,13 +141,13 @@ def change_user(request):
 
     dj4e_user1 (copy) / Meow_782113_41 (copy)
     dj4e_user2 (copy) / Meow_42_782113 (copy)
-    
+
     Spanish Lessons Available: Beginner to Advanced Levels
     Seeking Running Partner for Early Morning Runs
     '''
 
     password1, password2, title = get_info(1)
-    
+
     # change user password
     User = get_user_model()
     user = User.objects.get(username="dj4e_user1")
@@ -128,17 +157,23 @@ def change_user(request):
     user = User.objects.get(username="dj4e_user2")
     user.set_password(password2)
     user.save()
-    
+
     # Add a new Ad
-    ad = Ad(title=title, text=title, price=100, owner=user)
+    title1 = 'Spanish Lessons Available: Beginner to Advanced Levels'
+    ad = Ad(title=title1, text=title1, price=100, owner=user)
     ad.save()
-    return HttpResponse(f"dj4e_user1 password: {password1}<br>dj4e_user2 password: {password2} <br>title: {title}") 
+    title2 = 'Seeking Running Partner for Early Morning Runs'
+    ad = Ad(title=title2, text=title2, price=100, owner=user)
+    ad.save()
+    return HttpResponse(f"dj4e_user1 password: {password1}<br>dj4e_user2 password: {password2} <br>title: {title}")
+
 
 def get_info(version):
     if version == "1":
         return "Meow_16751b_41", "Meow_42_16751b", "Spanish Lessons Available: Beginner to Advanced Levels"
     else:
         return "Meow_782113_41", "Meow_42_782113", "Seeking Running Partner for Early Morning Runs"
+
 
 def stream_file(request, pk):
     ad = get_object_or_404(Ad, id=pk)
@@ -147,3 +182,22 @@ def stream_file(request, pk):
     response['Content-Length'] = len(ad.picture)
     response.write(ad.picture)
     return response
+
+
+# csrf exemption in class based views
+# https://stackoverflow.com/questions/16458166/how-to-disable-djangos-csrf-validation
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ToggleFavoriteView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        t = get_object_or_404(Ad, id=pk)
+        fav = Fav(user=request.user, ad=t)
+        try:
+            fav.save()
+            return HttpResponse("Favorite added 42")
+        except IntegrityError:  # Already there, lets delete...
+            Fav.objects.get(user=request.user, ad=t).delete()
+            return HttpResponse("Favorite deleted 42")
+        return HttpResponse("Something went wrong")

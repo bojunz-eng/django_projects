@@ -23,7 +23,8 @@
   {% endif %}
 
   <span style="float: right;">
-    ({{ ad.updated_at|naturaltime }}){% if ad.owner == user %}
+    ({{ ad.updated_at|naturaltime }})
+    {% if ad.owner == user %}
       <a href="{% url 'mkt:ad_update' ad.id %}"><i class="fa fa-pencil"></i></a>
       <a href="{% url 'mkt:ad_delete' ad.id %}"><i class="fa fa-trash"></i></a>
     {% endif %}
@@ -34,10 +35,8 @@
     <img style="float:right; max-width:50%;" src="{% url 'mkt:ad_picture' ad.id %}" onclick="document.getElementById('overlay').style.display = 'block';" />
   {% endif %}
   <p>{{ ad.text }}</p>
-  <p>Price: {{ ad.price }}</p>
-  <p></p>
-
-  <p>({{ ad.updated_at|naturaltime }})</p>
+  <p>Price: ${{ ad.price }}</p>
+ 
   {% if user.is_authenticated %}
     <br clear="all" />
     <p>
@@ -60,7 +59,7 @@
     </p>
   {% endfor %}
 
-  <p>
+  <p style="display: none;">
     <a href="{% url 'mkt:all' %}">All ads</a>
   </p>
 {% endblock %}

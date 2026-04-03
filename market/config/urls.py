@@ -28,7 +28,7 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/profile/', views.profile, name='profile'),
+    
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
     
     #path('mkt/', include('mkt.urls')),
