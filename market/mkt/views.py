@@ -79,30 +79,44 @@ class AdUpdateView(LoginRequiredMixin, View):
 class AdDeleteView(OwnerDeleteView):
     model = Ad
 
-def change_user(request):
+def get_info(version):
     '''
-    
     dj4e_user1 (copy) / Meow_16751b_41 (copy)
     dj4e_user2 (copy) / Meow_42_16751b (copy)
 
     dj4e_user1 (copy) / Meow_782113_41 (copy)
     dj4e_user2 (copy) / Meow_42_782113 (copy)
+    
+    Spanish Lessons Available: Beginner to Advanced Levels
+    Seeking Running Partner for Early Morning Runs
     '''
-
+    
+    title1 = 'Spanish Lessons Available: Beginner to Advanced Levels'
+    title2 = 'Seeking Running Partner for Early Morning Runs'
+    
+    if version == '1':
+        return 'Meow_16751b_41', 'Meow_42_16751b', title1
+    else:
+        return 'Meow_782113_41', 'Meow_42_782113', title2
+    
+def change_user(request):
+    version = get_info(2)
+    user_pwd1, user_pwd2, title1 = get_info(version)
+    
     # change user password
     User = get_user_model()
     user = User.objects.get(username="dj4e_user1")
-    user.set_password("Meow_782113_41")
+    user.set_password(user_pwd1)
     user.save()
 
     user = User.objects.get(username="dj4e_user2")
-    user.set_password("Meow_42_782113")
+    user.set_password(user_pwd2)
     user.save()
     
     # Add a new Ad
-    ad = Ad(title="Seeking Running Partner for Early Morning Runs", text="Seeking Running Partner for Early Morning Runs", price=100, owner=user)
+    ad = Ad(title=title1, text=title1, price=100, owner=user)
     ad.save()
-    return HttpResponse(f"user password changed: {user.password}") 
+    return HttpResponse(f'dj4e_user1: {user_pwd1}<br> dj4e_user2: {user_pwd2}<br> Title: {title1}<br>') 
 
 def stream_file(request, pk):
     pic = get_object_or_404(Ad, id=pk)

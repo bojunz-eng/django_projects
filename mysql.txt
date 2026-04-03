@@ -9,3 +9,215 @@ database: bojunz$default
 Database host address:bojunz.mysql.pythonanywhere-services.com
 Username:bojunz
 password: rootroot
+
+
+def change_user(request):
+    '''
+    dj4e_user1 (copy) / Meow_16751b_41 (copy)
+    dj4e_user2 (copy) / Meow_42_16751b (copy)
+
+    dj4e_user1 (copy) / Meow_782113_41 (copy)
+    dj4e_user2 (copy) / Meow_42_782113 (copy)
+    
+    Spanish Lessons Available: Beginner to Advanced Levels
+    Seeking Running Partner for Early Morning Runs
+    '''
+
+    # change user password
+    User = get_user_model()
+    user = User.objects.get(username="dj4e_user1")
+    user.set_password("Meow_16751b_41")
+    user.save()
+
+    user = User.objects.get(username="dj4e_user2")
+    user.set_password("Meow_42_16751b")
+    user.save()
+    
+    # Add a new Ad
+    ad = Ad(title="Spanish Lessons Available: Beginner to Advanced Levels", text="Spanish Lessons Available: Beginner to Advanced Levels", price=100, owner=user)
+    ad.save()
+    return HttpResponse(f"user password changed: {user.password}") 
+
+
+
+<!-- Replace this value (42-42) with the one provided by the autograder -->
+<meta name="dj4e" content="816751b23dc0b7f460431c51f0ffd6b2">
+<!-- 816751b23dc0b7f460431c51f0ffd6b2 -->
+<!-- 67821139b53709d377b4f6b00bab112d -->
+<!-- ssh -R 80:localhost:8000 localhost.run -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+canvas
+
+bojunz@umich.edu
+kevinzhang2003kz!
+
+django-admin startproject mysite
+
+python manage.py startapp myapp
+
+python manage.py check
+
+python manage.py runserver
+
+python manage.py makemigrations
+python manage.py migrate
+
+
+python manage.py createsuperuser
+python manage.py changepassword admin
+
+python manage.py shell
+python3 manage.py runscript cats_load
+
+
+
+
+
+cd ~/django_projects/mysite
+rm */migrations/00*
+rm db.sqlite3
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser    # If needed
+
+
+
+
+816751b2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+cd ~
+python3.13 -m venv .ve52
+
+source ~/.ve52/bin/activate
+python --version
+
+pip install --upgrade pip
+pip install django==5.2
+
+python -m django --version
+
+#/home/(your-account)/.bashrc
+source ~/.ve52/bin/activate
+
+
+git pull origin django52
+
+
+
+Source code: /home/bojunz/django_projects/mysite
+Working directory: /home/bojunz/django_projects/mysite
+
+Virtualenv: /home/bojunz/.ve52
+
+
+
+
+
+Exploring the HyperText Transfer Protocol
+
+Last-Modified:
+Sat, 13 May 2017 11:22:22 GMT
+
+ETag:
+"1d3-54f6609240717"
+
+Content-Length:
+467
+
+Cache-Control:
+max-age=0, no-cache, no-store, must-revalidate
+
+Content-Type:
+ text/plain
+
+Cookies!
+5c421
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+config:
+  layout: dagre
+---
+erDiagram
+	direction TB
+	Region {
+		int region_id PK "Primary key"  
+		varchar(100) region_name  "UNESCO official region name"  
+	}
+
+	Country {
+		int country_id PK "Primary key"  
+		varchar(100) country_name  "Country name"  
+		char(3) iso_code  "ISO code"  
+		bigint population  "Population"  
+		decimal area_km2  "Area in square kilometers"  
+		int region_id FK "Foreign key to Region"  
+	}
+
+	Category {
+		int category_id PK "Primary key"  
+		varchar(50) category_name  "Heritage category"  
+	}
+
+	WorldHeritageSite {
+		int site_id PK "Primary key"  
+		varchar(255) site_name  "Heritage site name"  
+		int year_inscribed  "Year inscribed on World Heritage List"  
+		text description  "Site description"  
+		decimal longitude  "Longitude"  
+		decimal latitude  "Latitude"  
+		boolean danger_status  "Endangered status"  
+		int country_id FK "Foreign key to Country"  
+		int category_id FK "Foreign key to Category"  
+	}
+
+	ManagementAuthority {
+		int authority_id PK "Primary key"  
+		varchar(255) authority_name  "Management authority name"  
+		varchar(255) contact_email  "Contact email"  
+		varchar(50) phone  "Contact phone"  
+		int site_id FK "Foreign key to WorldHeritageSite"  
+	}
+
+	Region||--|{Country:"Contains"
+	Country||--|{WorldHeritageSite:"Has"
+	Category||--|{WorldHeritageSite:"Classifies"
+	WorldHeritageSite||--|{ManagementAuthority:"Managed by"
