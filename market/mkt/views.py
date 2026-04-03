@@ -12,6 +12,7 @@ from django.views.generic import DetailView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from mkt.forms import CreateForm, CommentForm
+from django.db.models import Q
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
@@ -27,7 +28,19 @@ class AdListView(OwnerListView):
     template_name = "mkt/ad_list.html"
 
     def get(self, request):
-        ad_list = Ad.objects.all()
+        ad_list = Ad.objects.all().order_by('-updated_at')
+        strval =  request.GET.get("search", False)
+        if strval :
+            # Simple title-only search
+            # objects = Post.objects.filter(title__contains=strval).select_related().distinct().order_by('-updated_at')[:10]
+
+            # Multi-field search
+            # __icontains for case-insensitive search
+            query = Q(title__icontains=strval) 
+            query.add(Q(text__icontains=strval), Q.OR)
+            query.add(Q(tags__name__in=[strval]), Q.OR)
+            ad_list = Ad.objects.filter(query).select_related().distinct().order_by('-updated_at')
+ 
         favorites = []
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
@@ -36,7 +49,7 @@ class AdListView(OwnerListView):
             # favorites = [2, 4, ...] using list comprehension
             favorites = [row['id'] for row in rows]
         print(favorites)
-        ctx = {'ad_list': ad_list, 'favorites': favorites}
+        ctx = {'ad_list': ad_list, 'favorites': favorites, 'search':strval}
         return render(request, self.template_name, ctx)
 
 
@@ -81,9 +94,13 @@ class AdCreateView(LoginRequiredMixin, View):
             return render(request, self.template_name, ctx)
 
         # Add owner to the model before saving
-        pic = form.save(commit=False)
-        pic.owner = self.request.user
-        pic.save()
+        ad = form.save(commit=False)
+        ad.owner = self.request.user
+        ad.save()
+        
+        # https://django-taggit.readthedocs.io/en/latest/forms.html#commit-false
+        form.save_m2m()    # Add this
+        
         return redirect(self.success_url)
 
 
@@ -107,7 +124,10 @@ class AdUpdateView(LoginRequiredMixin, View):
 
         pic = form.save(commit=False)
         pic.save()
-
+        
+        # https://django-taggit.readthedocs.io/en/latest/forms.html#commit-false
+        form.save_m2m()    # Add this
+        
         return redirect(self.success_url)
 
 
