@@ -1,13 +1,13 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
-from mkt.models import Ad
+from mkt.models import Ad, Comment
 from mkt.owner import OwnerListView, OwnerDetailView, OwnerCreateView, OwnerUpdateView, OwnerDeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from mkt.forms import CreateForm
+from django.urls import reverse, reverse_lazy
+from mkt.forms import CreateForm, CommentForm
 
 class AdListView(OwnerListView):
     model = Ad
@@ -17,6 +17,14 @@ class AdListView(OwnerListView):
 
 class AdDetailView(OwnerDetailView):
     model = Ad
+    template_name = "mkt/ad_detail.html"
+    
+    def get(self, request, pk) :
+        x = get_object_or_404(Ad, id=pk)
+        comments = Comment.objects.filter(ad=x).order_by('-updated_at')
+        comment_form = CommentForm()
+        context = { 'ad' : x, 'comments': comments, 'comment_form': comment_form }
+        return render(request, self.template_name, context)
 
 '''
 class AdCreateView(OwnerCreateView):
@@ -79,7 +87,25 @@ class AdUpdateView(LoginRequiredMixin, View):
 class AdDeleteView(OwnerDeleteView):
     model = Ad
 
-def get_info(version):
+
+class CommentCreateView(LoginRequiredMixin, View):
+    def post(self, request, pk) :
+        f = get_object_or_404(Ad, id=pk)
+        comment = Comment(text=request.POST['comment'], owner=request.user, ad=f)
+        comment.save()
+        return redirect(reverse('mkt:ad_detail', args=[pk]))
+
+class CommentDeleteView(OwnerDeleteView):
+    model = Comment
+    template_name = "mkt/comment_delete.html"
+
+    # https://stackoverflow.com/questions/26290415/deleteview-with-a-dynamic-success-url-dependent-on-id
+    def get_success_url(self):
+        ad = self.object.ad
+        return reverse('mkt:ad_detail', args=[ad.id])
+
+
+def change_user(request):
     '''
     dj4e_user1 (copy) / Meow_16751b_41 (copy)
     dj4e_user2 (copy) / Meow_42_16751b (copy)
@@ -90,38 +116,34 @@ def get_info(version):
     Spanish Lessons Available: Beginner to Advanced Levels
     Seeking Running Partner for Early Morning Runs
     '''
-    
-    title1 = 'Spanish Lessons Available: Beginner to Advanced Levels'
-    title2 = 'Seeking Running Partner for Early Morning Runs'
-    
-    if version == '1':
-        return 'Meow_16751b_41', 'Meow_42_16751b', title1
-    else:
-        return 'Meow_782113_41', 'Meow_42_782113', title2
-    
-def change_user(request):
-    version = get_info(2)
-    user_pwd1, user_pwd2, title1 = get_info(version)
+
+    password1, password2, title = get_info(1)
     
     # change user password
     User = get_user_model()
     user = User.objects.get(username="dj4e_user1")
-    user.set_password(user_pwd1)
+    user.set_password(password1)
     user.save()
 
     user = User.objects.get(username="dj4e_user2")
-    user.set_password(user_pwd2)
+    user.set_password(password2)
     user.save()
     
     # Add a new Ad
-    ad = Ad(title=title1, text=title1, price=100, owner=user)
+    ad = Ad(title=title, text=title, price=100, owner=user)
     ad.save()
-    return HttpResponse(f'dj4e_user1: {user_pwd1}<br> dj4e_user2: {user_pwd2}<br> Title: {title1}<br>') 
+    return HttpResponse(f"dj4e_user1 password: {password1}<br>dj4e_user2 password: {password2} <br>title: {title}") 
+
+def get_info(version):
+    if version == "1":
+        return "Meow_16751b_41", "Meow_42_16751b", "Spanish Lessons Available: Beginner to Advanced Levels"
+    else:
+        return "Meow_782113_41", "Meow_42_782113", "Seeking Running Partner for Early Morning Runs"
 
 def stream_file(request, pk):
-    pic = get_object_or_404(Ad, id=pk)
+    ad = get_object_or_404(Ad, id=pk)
     response = HttpResponse()
-    response['Content-Type'] = pic.content_type
-    response['Content-Length'] = len(pic.picture)
-    response.write(pic.picture)
+    response['Content-Type'] = ad.content_type
+    response['Content-Length'] = len(ad.picture)
+    response.write(ad.picture)
     return response

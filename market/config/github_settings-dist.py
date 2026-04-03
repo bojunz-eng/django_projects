@@ -7,21 +7,21 @@
 
 # Using PythonAnywhere here are some settings - replace "drchuck" with your account name
 
-# Application name: DJ4E Marketplace
+# Application name: DJ4E Samples
 # Homepage Url: https://drchuck.pythonanywhere.com
 # Application Description: Whatever
 # Authorization callback URL: https://drchuck.pythonanywhere.com/oauth/complete/github/
 
 # When you are given a Client ID, copy it into this file.  Ask to generate a
-# "New client secret".
+# "New client secret". Ov23liq5IBFMhi9Xlzae
 
 # Also on PythonAnywhere, go into the Web tab and enable "Force HTTPS"
 # so you don't get a redirect URI mismatch.
 
 # Then copy the client_key and secret to this file
 
-SOCIAL_AUTH_GITHUB_KEY = '224642424242424230ee'
-SOCIAL_AUTH_GITHUB_SECRET = 'f1afce7ffa5424242424242424242412af40ec57'
+SOCIAL_AUTH_GITHUB_KEY = 'Ov23liq5IBFMhi9Xlzae'
+SOCIAL_AUTH_GITHUB_SECRET = '5b6802ba4ef5abd6019d8eb3cda9455ce9dd5e0b'
 
 # Ask for the user's email (don't edit this line)
 SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
@@ -37,5 +37,4 @@ SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 # Homepage Url: http://localhost:8000
 # Application Description: Whatever
 # Authorization callback URL: http://127.0.0.1:8000/oauth/complete/github/
-
 

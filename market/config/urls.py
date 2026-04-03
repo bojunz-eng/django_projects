@@ -20,6 +20,7 @@ from django.urls import path
 from django.urls import include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
+from . import views
 import os
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/profile/', views.profile, name='profile'),
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
     
     #path('mkt/', include('mkt.urls')),
@@ -60,6 +62,7 @@ try:
                        )
     print('Using', social_login, 'as the login template')
 except:
+    e.print_exception()
     print('Using registration/login.html as the login template')
     
 
