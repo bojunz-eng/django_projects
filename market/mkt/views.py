@@ -29,21 +29,26 @@ class AdDeleteView(OwnerDeleteView):
 
 def change_user(request):
     '''
+    dj4e_user1 (copy) / Meow_16751b_41 (copy)
+    dj4e_user2 (copy) / Meow_42_16751b (copy)
+
     dj4e_user1 (copy) / Meow_782113_41 (copy)
     dj4e_user2 (copy) / Meow_42_782113 (copy)
+    
+    Spanish Lessons Available: Beginner to Advanced Levels 
     '''
 
     # change user password
     User = get_user_model()
     user = User.objects.get(username="dj4e_user1")
-    user.set_password("Meow_782113_41")
+    user.set_password("Meow_16751b_41")
     user.save()
 
     user = User.objects.get(username="dj4e_user2")
-    user.set_password("Meow_42_782113")
+    user.set_password("Meow_42_16751b")
     user.save()
     
     # Add a new Ad
-    ad = Ad(title="New Ad", text="Seeking Running Partner for Early Morning Runs", price=100, owner=user)
+    ad = Ad(title="Spanish Lessons Available: Beginner to Advanced Levels", text="Spanish Lessons Available: Beginner to Advanced Levels", price=100, owner=user)
     ad.save()
     return HttpResponse(f"user password changed: {user.password}") 
