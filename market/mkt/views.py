@@ -117,7 +117,7 @@ def change_user(request):
     Seeking Running Partner for Early Morning Runs
     '''
 
-    password1, password2, title = get_info(1)
+    password1, password2, title = get_info(2)
     
     # change user password
     User = get_user_model()
